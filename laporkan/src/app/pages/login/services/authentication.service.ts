@@ -16,6 +16,10 @@ export class AuthenticationService {
       params.email, params.password
     ));
   }
+
+  signOut(): Observable<any> {
+    return from(this.auth.signOut());
+  }
 }
 
 type SignIn = {
