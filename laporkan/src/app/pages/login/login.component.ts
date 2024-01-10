@@ -48,4 +48,8 @@ export class LoginComponent {
       }
     })
   }
+
+  googleLogin() {
+    this.AuthenticationService.googleSignIn();
+  }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../../pages/login/services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
+  constructor(private auth : AuthenticationService) { }
+
+  ngOnInit(): void {
+  }
+
+  signOut() {
+    this.auth.signOut();
+  }
 
 }
