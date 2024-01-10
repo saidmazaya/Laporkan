@@ -5,29 +5,32 @@
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
             <input type="email" id="email" name="email" formControlName="email" class="mt-1 p-2 w-full border rounded-md">
-            <div *ngIf="form.get('email')!.hasError('required')" class="text-red-500 text-xs mt-1">Email is required</div>
-            <div *ngIf="form.get('email')!.hasError('email')" class="text-red-500 text-xs mt-1">Invalid email address</div>
+            <!-- Tampilkan pesan kesalahan hanya jika formulir telah disentuh atau kolom input sudah 'dirty' -->
+            <div *ngIf="form.get('email')!.dirty && (form.get('email')!.hasError('required') || form.get('email')!.hasError('email'))" class="text-red-500 text-xs mt-1">
+                <ng-container *ngIf="form.get('email')!.hasError('required')">Email is required</ng-container>
+                <ng-container *ngIf="form.get('email')!.hasError('email')">Invalid email address</ng-container>
+            </div>
         </div>
         <div class="mb-4">
             <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
             <input type="password" id="password" name="password" formControlName="password" class="mt-1 p-2 w-full border rounded-md">
-            <div *ngIf="form.get('password')!.hasError('required')" class="text-red-500 text-xs mt-1">Password is required</div>
+            <!-- Tampilkan pesan kesalahan hanya jika formulir telah disentuh atau kolom input sudah 'dirty' -->
+            <div *ngIf="form.get('password')!.dirty && form.get('password')!.hasError('required')" class="text-red-500 text-xs mt-1">
+                Password is required
+            </div>
         </div>
         <div class="flex items-center justify-between mt-4">
             <button type="submit" [disabled]="!form.valid" class="bg-blue-500 text-white py-2 px-4 rounded-md disabled:bg-slate-500">Login</button>
-            <!-- Tombol Register -->
-            <button class="bg-green-500 text-white py-2 px-4 rounded-md ml-auto">
-                Register
-            </button>
         </div>
         </form>
         <!-- Tampilkan pesan error jika ada -->
         <div *ngIf="loginError" class="text-red-500 text-xs mt-1">{{ loginError }}</div>
-        <div class="flex items-center justify-between mt-4">
-            <button class="bg-red-600 text-white py-2 px-4 rounded-md">
-                <svg class="w-6 h-6 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M6 19h12M6 5h12"></path>
-                </svg>
+        <div class="mt-4 text-sm text-gray-600">
+            Don't have an account? <a [routerLink]="['/register']" class="text-blue-500">Register here</a>.
+        </div>
+        <div class="flex items-center justify-between mt-4 w-full">
+            <button class="bg-white shadow-md flex text-black border py-2 px-4 rounded-md w-full justify-center gap-3" (click)="googleLogin()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" class="w-6 h-6" alt="" srcset="">
                 Login with Google
             </button>
         </div>
