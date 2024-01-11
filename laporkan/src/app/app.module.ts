@@ -11,12 +11,14 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './user/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
+import { CreateReportComponent } from './user/create-report/create-report.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
+    CreateReportComponent,
   ],
   imports: [
     BrowserModule,
