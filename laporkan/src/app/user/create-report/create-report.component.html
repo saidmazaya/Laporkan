@@ -1,1 +1,56 @@
-<p>create-report works!</p>
+<app-navbar></app-navbar>
+
+<div class="m-auto items-center justify-center w-8/12">
+  <form>
+    <!-- Judul Input -->
+    <div class="mb-6">
+        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+        <input type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+
+    <!-- Deskripsi Input -->
+    <div class="mb-4">
+      <label for="description" class="block text-sm font-medium text-gray-600">Description</label>
+      <textarea id="description" name="description" rows="3" class="mt-1 p-2 w-full border rounded-md"></textarea>
+    </div>
+
+    <!-- Multiple Select (Jenis) Input -->
+    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+    <select multiple id="category" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected>Choose countries</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="FR">France</option>
+        <option value="DE">Germany</option>
+    </select>
+
+    <!-- Dropzone for Images -->
+    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+            </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+        </div>
+        <input id="dropzone-file" type="file" multiple class="hidden" (change)="selectFile($event)" />
+        <div *ngIf="errorMessages.length > 0" class="error-messages mb-2">
+            <p *ngFor="let errorMessage of errorMessages">{{ errorMessage }}</p>
+        </div>
+
+        <button type="button" class="bg-yellow-500 text-white py-2 px-4 rounded-md disabled:bg-slate-500" [disabled]="!selectedFiles" (click)="uploadFiles()">Upload</button>
+    
+        <div class="space-x-2 mt-2">
+            <div *ngFor="let fileName of fileNames" class="bg-gray-300 px-2 py-1 rounded-md inline-block">{{ fileName }}</div>
+        </div>
+    </label>   
+    <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+        <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" [ngStyle]="{ width: percentage + '%' }"> {{ formattedPercentage }}</div>
+    </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Submit</button>
+        </div>
+    </form>
+</div>
