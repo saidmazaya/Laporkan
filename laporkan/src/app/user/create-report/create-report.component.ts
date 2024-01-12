@@ -2,14 +2,22 @@ import { Component } from '@angular/core';
 import { FileMetaData } from '../../model/file-meta-data';
 import { FileService } from '../../shared/file.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { forkJoin, interval } from 'rxjs';
 
 @Component({
   selector: 'app-create-report',
   templateUrl: './create-report.component.html',
-  styleUrl: './create-report.component.css'
+  styleUrls: ['./create-report.component.css']
 })
 export class CreateReportComponent {
+
+  form!: FormGroup;
+  title: string = '';
+  description: string = '';
 
   selectedFiles!: FileList;
   currentFileUpload: FileMetaData[] = [];
@@ -17,13 +25,23 @@ export class CreateReportComponent {
   percentage: number = 0;
   formattedPercentage: string = '0%';
   errorMessages: string[] = [];
+  downloadUrls: FileMetaData[] = [];
+  isUploading: boolean = false;
 
   constructor(
     private fileService: FileService,
-    private fireStorage: AngularFireStorage
+    private fireStorage: AngularFireStorage,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private firestore: AngularFirestore,
   ) { }
 
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      category: [[], [Validators.required]],
+    });
   }
 
   selectFile(event: any) {
@@ -57,37 +75,99 @@ export class CreateReportComponent {
   }
 
   uploadFiles() {
+    if (!this.selectedFiles || this.selectedFiles.length === 0) {
+      console.log('No files selected for upload.');
+      return;
+    }
+  
+    this.isUploading = true; // Set the flag to indicate that the upload is in progress
+    const observables = [];
+  
     for (let i = 0; i < this.selectedFiles.length; i++) {
       const currentFile = this.selectedFiles[i];
       const currentFileUpload = new FileMetaData(currentFile);
-      const path = `Uploads/${currentFileUpload.file.name}`;
+      const uniqueFileName = this.generateUniqueFileName(currentFileUpload.file.name);
+      const path = `Uploads/${uniqueFileName}`;
   
       const storageRef = this.fireStorage.ref(path);
       const uploadTask = storageRef.put(currentFile);
   
-      uploadTask.snapshotChanges().pipe(
+      const observable = uploadTask.snapshotChanges().pipe(
         finalize(() => {
           storageRef.getDownloadURL().subscribe(downloadLink => {
             currentFileUpload.url = downloadLink;
             currentFileUpload.size = currentFileUpload.file.size;
-            currentFileUpload.name = currentFileUpload.file.name;
+            currentFileUpload.name = uniqueFileName;
   
-            this.fileService.saveMetaDataOfFiles(currentFileUpload);
+            // Check if the URL already exists in the array before pushing it
+            if (!this.downloadUrls.some(fileData => fileData.url === downloadLink)) {
+              this.downloadUrls.push(currentFileUpload);
+            }
           });
         })
-      ).subscribe((res: any) => {
-        // Calculate percentage as a number (0 to 100)
-        const calculatedPercentage = (res.bytesTransferred / res.totalBytes) * 100;
+      );
   
-        // Round the percentage to zero decimal places
-        this.percentage = calculatedPercentage;
+      observable.subscribe(
+        (res: any) => {
+          // Calculate percentage as a number (0 to 100)
+          const calculatedPercentage = (res.bytesTransferred / res.totalBytes) * 100;
   
-        // Format the percentage as a string with a percentage symbol
-        this.formattedPercentage = this.percentage.toFixed(0) + '%';
-      }, err => {
-        console.log('Error');
+          // Round the percentage to zero decimal places
+          this.percentage = calculatedPercentage;
+  
+          // Format the percentage as a string with a percentage symbol
+          this.formattedPercentage = this.percentage.toFixed(0) + '%';
+        },
+        err => {
+          console.log('Error during upload:', err);
+          // Handle errors during upload
+        }
+      );
+  
+      observables.push(observable);
+    }
+  
+    // Wait for all observables to complete
+    forkJoin(observables).subscribe(() => {
+      // All files uploaded, you can use this.downloadUrls array as needed
+      this.isUploading = false; // Set the flag to indicate that the upload is complete
+    });
+  }
+
+  // Generate a unique filename by appending a timestamp to the original filename
+  generateUniqueFileName(originalFileName: string): string {
+    const currentDate = new Date().getTime();
+    const randomString = Math.random().toString(36).substring(2, 8); // Random string of length 6
+    const fileExtension = originalFileName.split('.').pop();
+    const sanitizedFileName = originalFileName.replace(/[^a-zA-Z0-9]/g, ''); // Remove special characters
+  
+    return `${sanitizedFileName}-${currentDate}-${randomString}.${fileExtension}`;
+  }
+  
+
+  saveData(): void {
+    if (this.form.valid) {
+      this.uploadFiles();
+
+      // Wait for the upload to complete before saving to the 'reports' collection
+      const uploadSubscription = interval(2000).subscribe(() => {
+        if (!this.isUploading) {
+          uploadSubscription.unsubscribe(); // Stop checking when the upload is complete
+          // console.log('Download URL:', this.downloadUrls)
+
+          // Use this.downloadUrls when saving data to the 'reports' collection
+          this.firestore.collection('reports').add({
+            title: this.form.value.title,
+            description: this.form.value.description,
+            category: this.form.value.category,
+            imageUrls: this.downloadUrls.map(fileData => fileData.url),
+          }).then(() => {
+            this.router.navigate(['home']);
+          }).catch((error: any) => {
+            console.log(error);
+          });
+        }
       });
     }
   }
-
 }
