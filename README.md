@@ -1,9 +1,12 @@
 # LaporKan by Devree
 
 ## Deskripsi Tim
-<p>
-    Kami mengembangkan sebuah website yang memberikan warga akses mudah untuk melaporkan situasi konflik yang berpotensi berbahaya. Melalui platform ini, pengguna dapat dengan cepat dan akurat menyampaikan laporan mereka kepada pihak berwenang atau pemerintah setempat. Website kami juga menyediakan opsi panggilan darurat untuk situasi yang memerlukan respons cepat.  Kami berkomitmen untuk menciptakan saluran komunikasi yang efektif antara masyarakat dan pemerintah, mendukung langkah-langkah tindak lanjut yang diperlukan, dan meningkatkan keselamatan serta respons dalam menghadapi tantangan konflik dan keadaan darurat.
-</p>
+- Nama Tim : Devree
+- Anggota
+- 1. Muhamad Rafi Devari Hasibuan (Hustler)
+- 2. Said Muhammad Mazaya (Hacker)
+- 3. Muhammad Thoriq Al Asyjari (Hipster)
+- 4. Ibra Rizqy Siregar (Hacker)
 
 ## Screenshot MVP Aplikasi (User)
 
