@@ -175,8 +175,15 @@ export class CreateReportComponent {
                 informant: informantInfo,
                 imageUrls: this.downloadUrls.map(fileData => fileData.url),
                 status: 'Pending',
-              }).then(() => {
-                this.router.navigate(['home']);
+              }).then((docRef) => {
+                // Gunakan docRef.id sebagai nilai ID dalam kolom "id"
+                this.firestore.collection('reports').doc(docRef.id).update({
+                  id: docRef.id,
+                }).then(() => {
+                  this.router.navigate(['home']);
+                }).catch((error: any) => {
+                  console.log(error);
+                });
               }).catch((error: any) => {
                 console.log(error);
               });

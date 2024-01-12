@@ -2,6 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.9.
 
+## Install Dependencies
+Run `npm install` to install all dependencies.
+
 ## Environment Variables
 make `environments` folder in `src` folder, then create `environment.ts` file in `environments` folder. Then add this code to `environment.ts` file.
 
