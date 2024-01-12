@@ -3,6 +3,7 @@
 ## Deskripsi Tim
 <p>Nama Tim : Devree</p>
 <p>Anggota</p>
+
 - Muhamad Rafi Devari Hasibuan (Hustler)
 - Said Muhammad Mazaya (Hacker)
 - Muhammad Thoriq Al Asyjari (Hipster)
