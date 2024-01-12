@@ -24,7 +24,7 @@ const routes: Routes = [
       .then(m => m.CreateReportModule)
   },
   {
-    path: 'view',
+    path: 'view/:id',
     loadChildren: () => import ('./user/view-report/view-report.module')
       .then(m => m.ViewReportModule)
   },

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-report',
@@ -10,23 +10,28 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ViewReportComponent {
   documentData: any;
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(
+    private route: ActivatedRoute,
+    private firestore: AngularFirestore
+  ) {}
 
   ngOnInit(): void {
-    const documentId = 'Z3zGhrqgzRvYLZ58fMf1';
-    const report = 'reports';
+    this.route.params.subscribe(params => {
+      const documentId = params['id'];
+      const report = 'reports';
 
-    this.firestore
-      .collection(report)
-      .doc(documentId)
-      .get()
-      .subscribe((doc) => {
-        if (doc.exists) {
-          this.documentData = doc.data();
-          console.log('Document Data:', this.documentData);
-        } else {
-          console.log('Document does not exist');
-        }
-      });
+      this.firestore
+        .collection(report)
+        .doc(documentId)
+        .get()
+        .subscribe((doc) => {
+          if (doc.exists) {
+            this.documentData = doc.data();
+            console.log('Document Data:', this.documentData);
+          } else {
+            console.log('Document does not exist');
+          }
+        });
+    });
   }
 }
