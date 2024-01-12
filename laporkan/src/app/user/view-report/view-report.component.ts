@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-report',
@@ -13,7 +12,7 @@ export class ViewReportComponent {
   constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    const documentId = 'n9XWNUN5MgtwomQz9GEU';
+    const documentId = 'Z1R8g6y8UjAEUgSVasPZ';
     const report = 'reports';
 
     this.firestore
