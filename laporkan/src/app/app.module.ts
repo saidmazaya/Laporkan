@@ -13,6 +13,7 @@ import { HomeComponent } from './user/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { CreateReportComponent } from './user/create-report/create-report.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ViewReportComponent } from './user/view-report/view-report.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     NavbarComponent,
     CreateReportComponent,
+    ViewReportComponent,
   ],
   imports: [
     BrowserModule,
