@@ -1,0 +1,10 @@
+<div *ngIf="documentData">
+    <h2>{{ documentData.title }}</h2>
+    <p>{{ documentData.description }}</p>
+    <p>{{ documentData.category }}</p>
+    <ul>
+        <li *ngFor="let item of documentData.imageUrls">
+          <img src="{{ item }}">
+        </li>
+      </ul>
+  </div>
