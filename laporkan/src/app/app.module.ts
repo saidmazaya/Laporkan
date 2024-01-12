@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { HomeComponent } from './user/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { CreateReportComponent } from './user/create-report/create-report.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CreateReportComponent } from './user/create-report/create-report.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireStorageModule,

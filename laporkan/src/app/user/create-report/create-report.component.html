@@ -1,28 +1,35 @@
 <app-navbar></app-navbar>
 
 <div class="m-auto items-center justify-center w-8/12">
-  <form>
+    <form [formGroup]="form" (ngSubmit)="saveData()">
     <!-- Judul Input -->
     <div class="mb-6">
         <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-        <input type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <input type="text" formControlName="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <div *ngIf="form.get('title')!.dirty && form.get('title')!.hasError('required')" class="text-red-500 text-xs mt-1">
+            Title is required
+        </div>
     </div>
 
     <!-- Deskripsi Input -->
     <div class="mb-4">
-      <label for="description" class="block text-sm font-medium text-gray-600">Description</label>
-      <textarea id="description" name="description" rows="3" class="mt-1 p-2 w-full border rounded-md"></textarea>
+        <label for="description" class="block text-sm font-medium text-gray-600">Description</label>
+        <textarea id="description" formControlName="description" name="description" rows="3" class="mt-1 p-2 w-full border rounded-md"></textarea>
+        <div *ngIf="form.get('description')!.dirty && form.get('description')!.hasError('required')" class="text-red-500 text-xs mt-1">
+            Description is required
+        </div>
     </div>
 
     <!-- Multiple Select (Jenis) Input -->
-    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-    <select multiple id="category" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option selected>Choose countries</option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="FR">France</option>
-        <option value="DE">Germany</option>
+    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a category</label>
+    <select multiple id="category" formControlName="category" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option value="Perampokan">Perampokan</option>
+        <option value="Bencana Alam">Bencana Alam</option>
+        <option value="Kebakaran">Kebakaran</option>
     </select>
+    <div *ngIf="form.get('category')!.dirty && form.get('category')!.hasError('required')" class="text-red-500 text-xs mt-1">
+        Category is required
+    </div>
 
     <!-- Dropzone for Images -->
     <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -38,7 +45,7 @@
             <p *ngFor="let errorMessage of errorMessages">{{ errorMessage }}</p>
         </div>
 
-        <button type="button" class="bg-yellow-500 text-white py-2 px-4 rounded-md disabled:bg-slate-500" [disabled]="!selectedFiles" (click)="uploadFiles()">Upload</button>
+        <!-- <button type="button" class="bg-yellow-500 text-white py-2 px-4 rounded-md disabled:bg-slate-500" [disabled]="!selectedFiles" (click)="uploadFiles()">Upload</button> -->
     
         <div class="space-x-2 mt-2">
             <div *ngFor="let fileName of fileNames" class="bg-gray-300 px-2 py-1 rounded-md inline-block">{{ fileName }}</div>
@@ -50,7 +57,7 @@
 
         <!-- Submit Button -->
         <div class="mt-6">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Submit</button>
+            <button type="submit" [disabled]="!form.valid || isUploading" class="bg-blue-500 mb-3 text-white py-2 px-4 rounded-md disabled:bg-slate-500">LaporKan!</button>
         </div>
     </form>
 </div>
