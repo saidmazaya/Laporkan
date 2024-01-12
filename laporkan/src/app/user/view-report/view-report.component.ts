@@ -13,7 +13,7 @@ export class ViewReportComponent {
   constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    const documentId = 'n9XWNUN5MgtwomQz9GEU';
+    const documentId = 'Z3zGhrqgzRvYLZ58fMf1';
     const report = 'reports';
 
     this.firestore

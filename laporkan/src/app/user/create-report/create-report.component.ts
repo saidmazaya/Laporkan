@@ -174,6 +174,7 @@ export class CreateReportComponent {
                 category: this.form.value.category,
                 informant: informantInfo,
                 imageUrls: this.downloadUrls.map(fileData => fileData.url),
+                status: 'Pending',
               }).then(() => {
                 this.router.navigate(['home']);
               }).catch((error: any) => {
