@@ -2,11 +2,11 @@
 
 ## Deskripsi Tim
 - Nama Tim : Devree
-- Anggota
-- 1. Muhamad Rafi Devari Hasibuan (Hustler)
-- 2. Said Muhammad Mazaya (Hacker)
-- 3. Muhammad Thoriq Al Asyjari (Hipster)
-- 4. Ibra Rizqy Siregar (Hacker)
+Anggota
+- Muhamad Rafi Devari Hasibuan (Hustler)
+- Said Muhammad Mazaya (Hacker)
+- Muhammad Thoriq Al Asyjari (Hipster)
+- Ibra Rizqy Siregar (Hacker)
 
 ## Screenshot MVP Aplikasi (User)
 
