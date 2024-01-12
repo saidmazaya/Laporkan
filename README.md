@@ -1,8 +1,8 @@
 # LaporKan by Devree
 
 ## Deskripsi Tim
-- Nama Tim : Devree
-Anggota
+<p>Nama Tim : Devree</p>
+<p>Anggota</p>
 - Muhamad Rafi Devari Hasibuan (Hustler)
 - Said Muhammad Mazaya (Hacker)
 - Muhammad Thoriq Al Asyjari (Hipster)
