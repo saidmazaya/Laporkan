@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { forkJoin, interval } from 'rxjs';
+import { User } from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-create-report',
@@ -27,6 +29,7 @@ export class CreateReportComponent {
   errorMessages: string[] = [];
   downloadUrls: FileMetaData[] = [];
   isUploading: boolean = false;
+  isAnonim: boolean = false;
 
   constructor(
     private fileService: FileService,
@@ -34,6 +37,7 @@ export class CreateReportComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private firestore: AngularFirestore,
+    private afAuth: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
@@ -143,31 +147,43 @@ export class CreateReportComponent {
   
     return `${sanitizedFileName}-${currentDate}-${randomString}.${fileExtension}`;
   }
-  
+
+  toggleAnonim() {
+    this.isAnonim = !this.isAnonim;
+  }  
 
   saveData(): void {
     if (this.form.valid) {
       this.uploadFiles();
-
+  
       // Wait for the upload to complete before saving to the 'reports' collection
       const uploadSubscription = interval(2000).subscribe(() => {
         if (!this.isUploading) {
           uploadSubscription.unsubscribe(); // Stop checking when the upload is complete
-          // console.log('Download URL:', this.downloadUrls)
-
-          // Use this.downloadUrls when saving data to the 'reports' collection
-          this.firestore.collection('reports').add({
-            title: this.form.value.title,
-            description: this.form.value.description,
-            category: this.form.value.category,
-            imageUrls: this.downloadUrls.map(fileData => fileData.url),
-          }).then(() => {
-            this.router.navigate(['home']);
-          }).catch((error: any) => {
-            console.log(error);
+  
+          // Dapatkan informasi pengguna saat ini
+          this.afAuth.authState.subscribe(user => {
+            if (user) {
+              // Tentukan nilai informantInfo berdasarkan nilai isAnonim
+              const informantInfo = this.isAnonim ? 'Anonymous' : user.email?.split('@')[0] || '';
+  
+              // Gunakan this.downloadUrls saat menyimpan data ke koleksi 'reports'
+              this.firestore.collection('reports').add({
+                title: this.form.value.title,
+                description: this.form.value.description,
+                category: this.form.value.category,
+                informant: informantInfo,
+                imageUrls: this.downloadUrls.map(fileData => fileData.url),
+              }).then(() => {
+                this.router.navigate(['home']);
+              }).catch((error: any) => {
+                console.log(error);
+              });
+            }
           });
         }
       });
     }
   }
+  
 }
