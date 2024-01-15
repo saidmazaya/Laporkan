@@ -15,6 +15,7 @@ import { CreateReportComponent } from './user/create-report/create-report.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewReportComponent } from './user/view-report/view-report.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,9 @@ import { ViewReportComponent } from './user/view-report/view-report.component';
     AngularFireStorageModule,
     AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
