@@ -11,6 +11,14 @@
                 </div>
             </div>
             <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-600">Username</label>
+                <input type="username" id="username" name="username" formControlName="username" class="mt-1 p-2 w-full border rounded-md">
+                <div ngIf="form.get('username')!.dirty && (form.get('username')!.hasError('required') || form.get('username')!.hasError('username'))" class="text-red-500 text-xs mt-1">
+                    <ng-container *ngIf="form.get('username')!.hasError('required')">username is required</ng-container>
+                    <ng-container *ngIf="form.get('username')!.hasError('username')">Invalid username address</ng-container>
+                </div>
+            </div>
+            <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
                 <input type="password" id="password" name="password" formControlName="password" class="mt-1 p-2 w-full border rounded-md">
                 <div *ngIf="form.get('password')!.dirty && form.get('password')!.hasError('required')" class="text-red-500 text-xs mt-1">
