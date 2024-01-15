@@ -19,8 +19,15 @@ export class AuthenticationService {
         params.password
       ).then(cred=> {
         if (cred.user !== null) {
-          return this.firestore.collection('users').doc(cred.user.uid)
-          .set({username: params.username, email: params.email, role: params.role });
+          return this.firestore.
+          collection('users').doc(cred.user.uid).set({
+            username: params.username, 
+            email: params.email, 
+            role: params.role,
+            nik: params.nik,
+            phone: params.phone,
+            address: params.address
+          });
         }
         throw new Error('User is null');
       })
@@ -43,4 +50,7 @@ type Register = {
   password: string;
   username: string;
   role: string;
+  nik: number;
+  phone: number;
+  address: string;
 };

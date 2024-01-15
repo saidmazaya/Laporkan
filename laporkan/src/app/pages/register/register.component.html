@@ -19,6 +19,30 @@
                 </div>
             </div>
             <div class="mb-4">
+                <label for="nik" class="block text-sm font-medium text-gray-600">NIK</label>
+                <input type="number" id="nik" name="nik" formControlName="nik" [minlength]="16" [maxlength]="16" class="mt-1 p-2 w-full border rounded-md">
+                <div *ngIf="form.get('nik')!.dirty && (form.get('nik')!.hasError('required') || form.get('nik')!.hasError('nik'))" class="text-red-500 text-xs mt-1">
+                    <ng-container *ngIf="form.get('nik')!.hasError('required')">NIK is required</ng-container>
+                    <ng-container *ngIf="form.get('nik')!.hasError('nik')">Invalid NIK address</ng-container>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="phone" class="block text-sm font-medium text-gray-600">Phone</label>
+                <input type="number" id="phone" name="phone" formControlName="phone" [minlength]="8" [maxlength]="14" class="mt-1 p-2 w-full border rounded-md">
+                <div *ngIf="form.get('phone')!.dirty && (form.get('phone')!.hasError('required') || form.get('phone')!.hasError('phone'))" class="text-red-500 text-xs mt-1">
+                    <ng-container *ngIf="form.get('phone')!.hasError('required')">phone is required</ng-container>
+                    <ng-container *ngIf="form.get('phone')!.hasError('phone')">Invalid phone address</ng-container>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="address" class="block text-sm font-medium text-gray-600">Address</label>
+                <textarea name="address" id="address" formControlName="address" rows="3" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <div *ngIf="form.get('address')!.dirty && (form.get('address')!.hasError('required') || form.get('address')!.hasError('address'))" class="text-red-500 text-xs mt-1">
+                    <ng-container *ngIf="form.get('address')!.hasError('required')">address is required</ng-container>
+                    <ng-container *ngIf="form.get('address')!.hasError('address')">Invalid address address</ng-container>
+                </div>
+            </div>
+            <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
                 <input type="password" id="password" name="password" formControlName="password" class="mt-1 p-2 w-full border rounded-md">
                 <div *ngIf="form.get('password')!.dirty && form.get('password')!.hasError('required')" class="text-red-500 text-xs mt-1">

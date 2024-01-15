@@ -23,7 +23,10 @@ export class RegisterComponent {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      username: ['', [Validators.required]]
+      username: ['', [Validators.required]],
+      nik: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+      address: ['', [Validators.required]]
     });
   }
 
@@ -35,6 +38,9 @@ export class RegisterComponent {
       email: this.form.value.email,
       password: this.form.value.password,
       username: this.form.value.username,
+      nik: this.form.value.nik,
+      phone: this.form.value.phone,
+      address: this.form.value.address,
       role: "user"
     }).subscribe(
       () => {
