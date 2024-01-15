@@ -23,6 +23,7 @@ export class RegisterComponent {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+      username: ['', [Validators.required]]
     });
   }
 
@@ -33,6 +34,8 @@ export class RegisterComponent {
     this.AuthenticationService.register({
       email: this.form.value.email,
       password: this.form.value.password,
+      username: this.form.value.username,
+      role: "user"
     }).subscribe(
       () => {
         this.router.navigate(['login']);
