@@ -10,9 +10,13 @@ import { AuthService } from './auth.service';
 export class AuthGuard implements CanActivate {
    constructor(private authService: AuthService, private router: Router) {}
 
+   
    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
+      const isAuthenticated = this.authService.checkAuthentication();
+      // console.log('Is authenticated:', isAuthenticated);
       // Check if the user is authenticated
-      if (this.authService.checkAuthentication()) {
+      if (isAuthenticated) {
          return true; // User is authenticated, allow access
       } else {
          // User is not authenticated, redirect to the login page or another route
