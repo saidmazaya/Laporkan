@@ -27,7 +27,7 @@ export class ViewReportComponent {
         .subscribe((doc) => {
           if (doc.exists) {
             this.documentData = doc.data();
-            console.log('Document Data:', this.documentData);
+            // console.log('Document Data:', this.documentData);
           } else {
             console.log('Document does not exist');
           }
